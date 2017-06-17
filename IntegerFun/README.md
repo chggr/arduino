@@ -46,3 +46,6 @@ currently supported:
 12. **COMPLEMENT**: Counts from 1 onwards, displays both the number and its complement.
 13. **PERFECT**: Display perfect numbers.
 
+Please have a look at Wikipedia or any other online resource for more
+information about the integer sequences mentioned above.
+
