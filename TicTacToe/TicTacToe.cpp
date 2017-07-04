@@ -104,6 +104,15 @@ bool isBoardFull(Board b) {
     return true;
 }
 
+// Returns a boolean indicating whether the given game board is empty. A board
+// is considered empty when all its cells are empty (E).
+bool isBoardEmpty(Board b) {
+    for (int i = 0; i < 9; i++) {
+        if (b.c[i] != E) return false;
+    }
+    return true;
+}
+
 // Returns a new board that is the result of applying the given move to the
 // given board.
 Board applyMove(Board b, Move m) {
@@ -164,8 +173,13 @@ void evaluateMoves(Board b, Cell c, Move *p) {
 }
 
 // Evaluates all possible moves in the given board, selects and returns the one
-// with the best score.
+// with the best score. If the given board is empty, it will return the middle
+// cell to speed up computation.
 Loc play(Board b) {
+
+    if (isBoardEmpty(b)) {
+        return 4;
+    }
 
     for (int i = 0; i < 9; i++) {
         scores[i] = 0;
@@ -280,7 +294,7 @@ Loc getUserSelection() {
 void flashBoard() {
     Board empty;
     for (int i = 0; i< 9; i++) {
-        empty.c[i] = 0;
+        empty.c[i] = E;
     }
 
     for (int i = 0; i < 3; i++) {
@@ -298,12 +312,14 @@ void flashBoard() {
 // If there is a winner, the board flashes three times.
 void loop() {
     clearBoard();
+    displayBoard(board);
     me = random(2) ? X : O;
     Cell human = me == X ? O : X;
     Cell nextPlayer = random(2) ? me : human;
 
     while (!isBoardFull(board) && getWinner(board) == E) {
         if (nextPlayer == me) {
+            updateDepth();
             board = applyMove(board, {me, play(board), NULL});
         } else {
             board = applyMove(board, {human, getUserSelection(), NULL});
