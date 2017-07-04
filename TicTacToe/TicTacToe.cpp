@@ -62,6 +62,8 @@ void setup() {
     pinMode(DATA_PIN, OUTPUT);
     pinMode(LATCH_PIN, OUTPUT);
     pinMode(CLOCK_PIN, OUTPUT);
+
+    randomSeed(analogRead(0));
 }
 
 // Cleans the game board, setting all cells to E (empty).
@@ -201,15 +203,15 @@ void displayBoardSerial(Board b) {
 //
 // In more detail, each row is represented by a byte as: U R G R G R G U
 // where U is an unused bit, R lights the red LED and G lights the green LED.
-void displayBoard() {
+void displayBoard(Board b) {
     unsigned char temp;
 
     digitalWrite(LATCH_PIN, LOW);
-    temp = (board.c[0] << 5) | (board.c[1] << 3) | (board.c[2] << 1);
+    temp = (b.c[0] << 5) | (b.c[1] << 3) | (b.c[2] << 1);
     shiftOut(DATA_PIN, CLOCK_PIN, LSBFIRST, temp);
-    temp = (board.c[3] << 5) | (board.c[4] << 3) | (board.c[5] << 1);
+    temp = (b.c[3] << 5) | (b.c[4] << 3) | (b.c[5] << 1);
     shiftOut(DATA_PIN, CLOCK_PIN, LSBFIRST, temp);
-    temp = (board.c[6] << 5) | (board.c[7] << 3) | (board.c[8] << 1);
+    temp = (b.c[6] << 5) | (b.c[7] << 3) | (b.c[8] << 1);
     shiftOut(DATA_PIN, CLOCK_PIN, LSBFIRST, temp);
     digitalWrite(LATCH_PIN, HIGH);
 }
@@ -272,5 +274,48 @@ Loc getUserSelection() {
             return selection;
         }
     }
+}
+
+// Flashes the board three times to indicate there is a winner.
+void flashBoard() {
+    Board empty;
+    for (int i = 0; i< 9; i++) {
+        empty.c[i] = 0;
+    }
+
+    for (int i = 0; i < 3; i++) {
+        displayBoard(empty);
+        delay(500);
+        displayBoard(board);
+        delay(500);
+    }
+}
+
+// Plays one game with a human in every loop. At the beginning of each
+// itteration, the board is cleared, a symbol is randomly assigned to each
+// player and the player who is going to make the first move is randomly
+// selected. The game continues until either there is a winner or it is a draw.
+// If there is a winner, the board flashes three times.
+void loop() {
+    clearBoard();
+    me = random(2) ? X : O;
+    Cell human = me == X ? O : X;
+    Cell nextPlayer = random(2) ? me : human;
+
+    while (!isBoardFull(board) && getWinner(board) == E) {
+        if (nextPlayer == me) {
+            board = applyMove(board, {me, play(board), NULL});
+        } else {
+            board = applyMove(board, {human, getUserSelection(), NULL});
+        }
+        nextPlayer = nextPlayer == me ? human : me;
+        displayBoard(board);
+        delay(1000);
+    }
+
+    if (getWinner(board) != E) {
+        flashBoard();
+    }
+    delay(5000);
 }
 
