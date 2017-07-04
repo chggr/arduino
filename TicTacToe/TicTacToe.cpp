@@ -194,9 +194,35 @@ void displayBoardSerial(Board b) {
     Serial.print("\n-------------\n");
 }
 
+// Displays the current board on the RGB LED display. The LEDs are connected
+// to 74HC595 shift registers so that one register controls each row of three
+// RGB LEDs. The circuit has been wired in such a way that the first and last
+// bits of every register remain unused.
+//
+// In more detail, each row is represented by a byte as: U R G R G R G U
+// where U is an unused bit, R lights the red LED and G lights the green LED.
+void displayBoard() {
+    unsigned char temp;
+
+    digitalWrite(LATCH_PIN, LOW);
+    temp = (board.c[0] << 5) | (board.c[1] << 3) | (board.c[2] << 1);
+    shiftOut(DATA_PIN, CLOCK_PIN, LSBFIRST, temp);
+    temp = (board.c[3] << 5) | (board.c[4] << 3) | (board.c[5] << 1);
+    shiftOut(DATA_PIN, CLOCK_PIN, LSBFIRST, temp);
+    temp = (board.c[6] << 5) | (board.c[7] << 3) | (board.c[8] << 1);
+    shiftOut(DATA_PIN, CLOCK_PIN, LSBFIRST, temp);
+    digitalWrite(LATCH_PIN, HIGH);
+}
+
+// Updates the depth of the algorithm by reading the value set by the user via
+// a potentiometer. This controls how smart the algorithm is going to be.
+void updateDepth() {
+    depth = analogRead(INPUT_PIN_DEPTH) * 20.0 / 1023.0;
+}
+
 // Reads the state of all nine buttons and returns the one that the user has
-// pressed. This method blocks, i.e. it not return until the user has made a
-// valid selection.
+// pressed. This method blocks, i.e. it does not return until the user has made
+// a valid selection.
 Loc getUserSelection() {
 
     while(true) {
