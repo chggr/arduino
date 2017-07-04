@@ -194,5 +194,57 @@ void displayBoardSerial(Board b) {
     Serial.print("\n-------------\n");
 }
 
+// Reads the state of all nine buttons and returns the one that the user has
+// pressed. This method blocks, i.e. it not return until the user has made a
+// valid selection.
+Loc getUserSelection() {
 
+    while(true) {
+        delay(100);
+
+        Loc selection = 10;
+        unsigned char counter = 0;
+
+        if (digitalRead(INPUT_PIN_0) == LOW) {
+            selection = 0;
+            counter++;
+        }
+        if (digitalRead(INPUT_PIN_1) == LOW) {
+            selection = 1;
+            counter++;
+        }
+        if (digitalRead(INPUT_PIN_2) == LOW) {
+            selection = 2;
+            counter++;
+        }
+        if (digitalRead(INPUT_PIN_3) == LOW) {
+            selection = 3;
+            counter++;
+        }
+        if (digitalRead(INPUT_PIN_4) == LOW) {
+            selection = 4;
+            counter++;
+        }
+        if (digitalRead(INPUT_PIN_5) == LOW) {
+            selection = 5;
+            counter++;
+        }
+        if (digitalRead(INPUT_PIN_6) == LOW) {
+            selection = 6;
+            counter++;
+        }
+        if (digitalRead(INPUT_PIN_7) == LOW) {
+            selection = 7;
+            counter++;
+        }
+        if (digitalRead(INPUT_PIN_8) == LOW) {
+            selection = 8;
+            counter++;
+        }
+
+        if (counter == 1 && board.c[selection] == E) {
+            return selection;
+        }
+    }
+}
 
