@@ -49,3 +49,10 @@ currently supported:
 Please have a look at Wikipedia or any other online resource for more
 information about the integer sequences mentioned above.
 
+
+
+### Galery
+
+<img src="IntegerFun1.JPG" width="500">
+
+
