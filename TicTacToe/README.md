@@ -38,3 +38,21 @@ algorithm and therefore how "smart" the Arduino player is going to be.
 
 
 
+### Software
+
+The MiniMax algorithm is used to analyse each possible move that the Arduino
+player can make in the TicTacToe board and pick the one with the maximum
+possible gain or the minimum possible loss. In summary, for every possible move
+a full tree of subsequent moves is constructed up to the point where the board
+reaches an end state (i.e. someone has won or is a draw). The end states are
+then evaluated and an aggregate score is assigned to the original move. Finally,
+the algorithm picks up the move with the highest aggregate score.
+
+When the ATmega328 first boots up, it sets the correct pin mode to each input
+and output pin and seeds the random number generated with noise picked up by
+reading analog pin 0. In every loop it plays one game with a human player.
+At the beginning of each itteration the board is cleared, a symbol (X or O)
+is randomnly assigned to each player and the player who is going to make the
+first move is randomly selected. The game game continues until either there is
+a winner or it is a draw. If there is a winner, the board flashes three times.
+
