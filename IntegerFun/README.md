@@ -53,9 +53,9 @@ information about the integer sequences mentioned above.
 
 ### Gallery
 
-<img src="IntegerFun1.JPG" width="500">
-<img src="IntegerFun2.JPG" width="500">
-<img src="IntegerFun3.JPG" width="500">
-<img src="IntegerFun4.JPG" width="500">
-<img src="IntegerFun5.JPG" width="500">
+<img src="gallery/IntegerFun1.JPG" width="500">
+<img src="gallery/IntegerFun2.JPG" width="500">
+<img src="gallery/IntegerFun3.JPG" width="500">
+<img src="gallery/IntegerFun4.JPG" width="500">
+<img src="gallery/IntegerFun5.JPG" width="500">
 
