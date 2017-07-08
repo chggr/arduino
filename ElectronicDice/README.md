@@ -47,3 +47,11 @@ number. The micro controller sleeps for 100 ms after each value change, which
 produces a nice visual effect to the user. For three to five seconds the dice
 rapidly and randomly change before settling to a final number.
 
+
+
+### Gallery
+
+<img src="gallery/ElectronicDice1.JPG" width="500">
+<img src="gallery/ElectronicDice2.JPG" width="500">
+<img src="gallery/ElectronicDice3.JPG" width="500">
+
