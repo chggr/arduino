@@ -46,7 +46,7 @@ static Score scores[9];
 static Board board;
 static unsigned char depth;
 
-// Sets the input and output pins. The internall pull-up resistor is used on
+// Sets the input and output pins. The internal pull-up resistor is used on
 // all input pins to ensure no noise is picked up during operation.
 void setup() {
     pinMode(INPUT_PIN_0, INPUT_PULLUP);

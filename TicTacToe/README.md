@@ -56,3 +56,12 @@ is randomnly assigned to each player and the player who is going to make the
 first move is randomly selected. The game game continues until either there is
 a winner or it is a draw. If there is a winner, the board flashes three times.
 
+
+
+### Gallery
+
+<img src="gallery/TicTacToe1.JPG" width="500">
+<img src="gallery/TicTacToe2.JPG" width="500">
+<img src="gallery/TicTacToe3.JPG" width="500">
+<img src="gallery/TicTacToe4.JPG" width="500">
+
