@@ -1,5 +1,5 @@
-#ifndef DISPLAY_H
-#define DISPLAY_H
+#ifndef OLED_DISPLAY_H
+#define OLED_DISPLAY_H
 
 #include <Arduino.h>
 #include <Wire.h>
@@ -38,19 +38,19 @@
 #define COL_WIDTH 10
 #define COL_SPACING 2
 
-class Display {
+class OledDisplay {
 
     public:
         void init();
-        void write(double[] left, double[] right);
+        void write(double left[], double right[]);
 
     private:
         void command(uint8_t c);
-        void write(double[] data);
+        void write(double data[]);
         void writeBorder();
-        double maximum(double[] data, uint8_t size);
+        double maximum(double data[], uint8_t size);
         uint8_t scale(double value, double min, double max);
-}
+};
 
-#endif // DISPLAY_H
+#endif // OLED_DISPLAY_H
 

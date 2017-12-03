@@ -1,7 +1,7 @@
-#include <Display.h>
+#include "OledDisplay.h"
 
 // Sends a command to the LCD display.
-void Display::command(uint8_t c) {
+void OledDisplay::command(uint8_t c) {
     Wire.beginTransmission(I2C_ADDR);
     Wire.write(0x00);
     Wire.write(c);
@@ -9,7 +9,7 @@ void Display::command(uint8_t c) {
 }
 
 // Initializes the display as per data sheet.
-void Display::init() {
+void OledDisplay::init() {
     Wire.begin();
     delay(10);
 
@@ -54,11 +54,11 @@ void Display::init() {
 }
 
 // Returns the maximum value in the given array.
-double Display::maximum(double data[], uint8_t size) {
-    double max = values[0];
+double OledDisplay::maximum(double data[], uint8_t size) {
+    double max = data[0];
     for (uint8_t i = 1; i < size; i++) {
         if (data[i] > max) {
-            max = values[i];
+            max = data[i];
         }
     }
     return max;
@@ -67,7 +67,7 @@ double Display::maximum(double data[], uint8_t size) {
 // Returns a byte that represents the given value's magnitude, taking into
 // account the min and max values provided. The byte returned is in big-endian
 // format, as required by the display.
-uint8_t Display::scale(double value, double min, double max) {
+uint8_t OledDisplay::scale(double value, double min, double max) {
     if (value <= min) {
         return 0x00;
     }
@@ -88,7 +88,7 @@ uint8_t Display::scale(double value, double min, double max) {
 }
 
 // Writes a border to the display.
-void Display::writeBorder() {
+void OledDisplay::writeBorder() {
     Wire.beginTransmission(I2C_ADDR);
     Wire.write(CMD_START_LINE);
     for (uint8_t i = 0; i < BORDER_WIDTH; i++) {
@@ -99,7 +99,7 @@ void Display::writeBorder() {
 
 // Writes data to one half of the display. Ensures that data is scaled properly
 // before writing to the display.
-void Display::write(double values[]) {
+void OledDisplay::write(double values[]) {
     uint8_t row_count = LCD_HEIGHT / 8 / 2;
     double max = maximum(values, COL_COUNT);
     double step = max / row_count;
@@ -130,7 +130,7 @@ void Display::write(double values[]) {
 
 // Writes spectrum data for the left and right channel to the display. The size
 // of both arrays is assumed to be equal to COL_COUNT.
-void Display::write(double left[], double right[]) {
+void OledDisplay::write(double left[], double right[]) {
 
     // Set cursor at the top left corner.
     command(CMD_COLUMN_ADDR);
