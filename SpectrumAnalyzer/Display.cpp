@@ -57,7 +57,7 @@ void Display::init() {
 double Display::maximum(double data[], uint8_t size) {
     double max = values[0];
     for (uint8_t i = 1; i < size; i++) {
-        if (values[i] > max) {
+        if (data[i] > max) {
             max = values[i];
         }
     }
@@ -112,8 +112,8 @@ void Display::write(double values[]) {
         // Write all segments (column and spacing).
         for (uint8_t seg = 0; seg < COL_COUNT; seg++) {
             uint8_t value = scale(values[seg],
-                    min + (row_count - row - 1) * step,
-                    min + (row_count - row) * step);
+                    (row_count - row - 1) * step,
+                    (row_count - row) * step);
 
             Wire.beginTransmission(I2C_ADDR);
             Wire.write(CMD_START_LINE);
@@ -130,7 +130,7 @@ void Display::write(double values[]) {
 
 // Writes spectrum data for the left and right channel to the display. The size
 // of both arrays is assumed to be equal to COL_COUNT.
-void Display::write(double[] left, double[] right) {
+void Display::write(double left[], double right[]) {
 
     // Set cursor at the top left corner.
     command(CMD_COLUMN_ADDR);
