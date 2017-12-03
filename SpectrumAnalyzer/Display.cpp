@@ -1,5 +1,6 @@
 #include <Display.h>
 
+// Sends a command to the LCD display.
 void Display::command(uint8_t c) {
     Wire.beginTransmission(I2C_ADDR);
     Wire.write(0x00);
@@ -7,6 +8,7 @@ void Display::command(uint8_t c) {
     Wire.endTransmission();
 }
 
+// Initializes the display as per data sheet.
 void Display::init() {
     Wire.begin();
     delay(10);
@@ -51,7 +53,96 @@ void Display::init() {
     command(CMD_DISPLAY_ON);
 }
 
-void Display::write(double[] left, double[] write) {
-    // TODO
+// Returns the maximum value in the given array.
+double Display::maximum(double data[], uint8_t size) {
+    double max = values[0];
+    for (uint8_t i = 1; i < size; i++) {
+        if (values[i] > max) {
+            max = values[i];
+        }
+    }
+    return max;
+}
+
+// Returns a byte that represents the given value's magnitude, taking into
+// account the min and max values provided. The byte returned is in big-endian
+// format, as required by the display.
+uint8_t Display::scale(double value, double min, double max) {
+    if (value <= min) {
+        return 0x00;
+    }
+    if (value >= max) {
+        return 0xFF;
+    }
+
+    uint8_t result = 0;
+    double step = (max - min) / 8;
+    for (uint8_t i = 0; i < 8; i++) {
+        if (value >= min + (i + 1) * step) {
+            result |= (1 << (7 - i));
+        } else {
+            break;
+        }
+    }
+    return result;
+}
+
+// Writes a border to the display.
+void Display::writeBorder() {
+    Wire.beginTransmission(I2C_ADDR);
+    Wire.write(CMD_START_LINE);
+    for (uint8_t i = 0; i < BORDER_WIDTH; i++) {
+        Wire.write(0x00);
+    }
+    Wire.endTransmission();
+}
+
+// Writes data to one half of the display. Ensures that data is scaled properly
+// before writing to the display.
+void Display::write(double values[]) {
+    uint8_t row_count = LCD_HEIGHT / 8 / 2;
+    double max = maximum(values, COL_COUNT);
+    double step = max / row_count;
+
+    for (uint8_t row = 0; row < row_count; row++) {
+
+        // Write the left border.
+        writeBorder();
+
+        // Write all segments (column and spacing).
+        for (uint8_t seg = 0; seg < COL_COUNT; seg++) {
+            uint8_t value = scale(values[seg],
+                    min + (row_count - row - 1) * step,
+                    min + (row_count - row) * step);
+
+            Wire.beginTransmission(I2C_ADDR);
+            Wire.write(CMD_START_LINE);
+            for (uint8_t i = 0; i < COL_WIDTH + COL_SPACING; i++) {
+                Wire.write(i < COL_SPACING ? 0x00 : value);
+            }
+            Wire.endTransmission();
+        }
+
+        // Write the right border.
+        writeBorder();
+    }
+}
+
+// Writes spectrum data for the left and right channel to the display. The size
+// of both arrays is assumed to be equal to COL_COUNT.
+void Display::write(double[] left, double[] right) {
+
+    // Set cursor at the top left corner.
+    command(CMD_COLUMN_ADDR);
+    command(0x00);
+    command(LCD_WIDTH - 1);
+
+    command(CMD_PAGE_ADDR);
+    command(0x00);
+    command(7);
+
+    // Write left channel on top, right channel below.
+    write(left);
+    write(right);
 }
 

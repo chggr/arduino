@@ -30,6 +30,14 @@
 #define CMD_COLUMN_ADDR        0x21
 #define CMD_PAGE_ADDR          0x22
 
+// UI preferences.
+// Values in pixels should satisfy the following equation:
+// 2 * BORDER_WIDTH + COL_COUNT * (COL_WIDTH + COL_SPACING) = LCD_WIDTH
+#define BORDER_WIDTH 4
+#define COL_COUNT 10
+#define COL_WIDTH 10
+#define COL_SPACING 2
+
 class Display {
 
     public:
@@ -38,6 +46,10 @@ class Display {
 
     private:
         void command(uint8_t c);
+        void write(double[] data);
+        void writeBorder();
+        double maximum(double[] data, uint8_t size);
+        uint8_t scale(double value, double min, double max);
 }
 
 #endif // DISPLAY_H
