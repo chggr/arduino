@@ -33,10 +33,24 @@
 // UI preferences.
 // Values in pixels should satisfy the following equation:
 // 2 * BORDER_WIDTH + COL_COUNT * (COL_WIDTH + COL_SPACING) = LCD_WIDTH
+
+// Ten thick columns.
 #define BORDER_WIDTH 4
 #define COL_COUNT 10
 #define COL_WIDTH 10
 #define COL_SPACING 2
+
+// Twenty thin columns.
+// #define BORDER_WIDTH 4
+// #define COL_COUNT 20
+// #define COL_WIDTH 5
+// #define COL_SPACING 1
+
+// Sixty columns, no spacing.
+// #define BORDER_WIDTH 4
+// #define COL_COUNT 60
+// #define COL_WIDTH 2
+// #define COL_SPACING 0
 
 class OledDisplay {
 
