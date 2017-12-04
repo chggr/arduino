@@ -8,6 +8,7 @@
 
 #define BUFFER_SIZE 800
 #define SAMPLE_FREQ 76923
+#define FREQ_STEP 1000
 
 int buffer[BUFFER_SIZE] = { 0 };
 double left_dft[COL_COUNT] = { 0.0 };
@@ -44,7 +45,7 @@ void sample(uint8_t pin) {
 
 // Calculates the k-th element of the Discrete Fourier transformation of the
 // signal stored in the buffer. This is a complex number, so this method
-// returns its magnitude. 
+// returns its magnitude.
 double DFT(unsigned int k) {
     double re = 0, im = 0, phase;
 
@@ -58,13 +59,13 @@ double DFT(unsigned int k) {
 
 void loop() {
     sample(LEFT_INPUT_PIN);
-    for (uint8_t i = 0; i < COL_COUNT; i++) {
-        left_dft[i] = DFT((i + 1) * 100);
+    for (uint8_t i = 1; i <= COL_COUNT; i++) {
+        left_dft[i] = DFT(i * FREQ_STEP);
     }
 
     sample(RIGHT_INPUT_PIN);
-    for (uint8_t i = 0; i < COL_COUNT; i++) {
-        right_dft[i] = DFT((i + 1) * 100);
+    for (uint8_t i = 1; i <= COL_COUNT; i++) {
+        right_dft[i] = DFT(i * FREQ_STEP);
     }
 
     display.write(right_dft, left_dft);
