@@ -72,7 +72,7 @@ void OledDisplay::resetCursor() {
 void OledDisplay::writeBorder() {
     Wire.beginTransmission(I2C_ADDR);
     Wire.write(CMD_START_LINE);
-    for (uint8_t i = 0; i < BORDER_WIDTH; i++) {
+    for (int i = 0; i < BORDER_WIDTH; i++) {
         Wire.write(0x00);
     }
     Wire.endTransmission();
@@ -94,7 +94,7 @@ void OledDisplay::writeBarPlot(double data[], int size) {
 
             Wire.beginTransmission(I2C_ADDR);
             Wire.write(CMD_START_LINE);
-            for (uint8_t i = 0; i < COL_WIDTH + COL_SPACING; i++) {
+            for (int i = 0; i < COL_WIDTH + COL_SPACING; i++) {
                 Wire.write(i < COL_SPACING ? 0x00 : value);
             }
             Wire.endTransmission();

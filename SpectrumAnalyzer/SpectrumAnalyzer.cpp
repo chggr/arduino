@@ -37,8 +37,8 @@ void setup() {
 }
 
 // Stores samples of the signal attached to the input pin into the buffer.
-void sample(uint8_t pin) {
-    for (uint16_t i = 0; i < BUFFER_SIZE; i++) {
+void sample(int pin) {
+    for (int i = 0; i < BUFFER_SIZE; i++) {
         buffer[i] = analogRead(pin);
     }
 }
@@ -49,7 +49,7 @@ void sample(uint8_t pin) {
 double DFT(unsigned int k) {
     double re = 0, im = 0, phase;
 
-    for (uint16_t n = 1; n < BUFFER_SIZE; n++) {
+    for (int n = 1; n < BUFFER_SIZE; n++) {
         phase = 2 * PI * k * n / SAMPLE_FREQ;
         re += buffer[n] * cos(phase);
         im -= buffer[n] * sin(phase);
@@ -59,12 +59,12 @@ double DFT(unsigned int k) {
 
 void loop() {
     sample(LEFT_INPUT_PIN);
-    for (uint8_t i = 1; i <= COL_COUNT; i++) {
+    for (int i = 1; i <= COL_COUNT; i++) {
         left_dft[i] = DFT(i * FREQ_STEP);
     }
 
     sample(RIGHT_INPUT_PIN);
-    for (uint8_t i = 1; i <= COL_COUNT; i++) {
+    for (int i = 1; i <= COL_COUNT; i++) {
         right_dft[i] = DFT(i * FREQ_STEP);
     }
 
