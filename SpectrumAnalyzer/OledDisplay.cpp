@@ -1,4 +1,5 @@
 #include "OledDisplay.h"
+#include "Range.h"
 
 // Sends a command to the LCD display.
 void OledDisplay::command(uint8_t c) {
@@ -53,17 +54,6 @@ void OledDisplay::init() {
     command(CMD_DISPLAY_ON);
 }
 
-// Returns the maximum value in the given array.
-double OledDisplay::maximum(double data[], uint8_t size) {
-    double max = data[0];
-    for (uint8_t i = 1; i < size; i++) {
-        if (data[i] > max) {
-            max = data[i];
-        }
-    }
-    return max;
-}
-
 // Returns a byte that represents the given value's magnitude, taking into
 // account the min and max values provided. The byte returned is in big-endian
 // format, as required by the display.
@@ -101,8 +91,8 @@ void OledDisplay::writeBorder() {
 // before writing to the display.
 void OledDisplay::write(double values[]) {
     uint8_t row_count = LCD_HEIGHT / 8 / 2;
-    double max = maximum(values, COL_COUNT);
-    double step = max / row_count;
+    Range<double> range(values, COL_COUNT);
+    double step = range.getMax() / row_count;
 
     for (uint8_t row = 0; row < row_count; row++) {
 
