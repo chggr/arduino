@@ -23,22 +23,29 @@ class BarScaler {
 template <class T>
 BarScaler<T>::BarScaler(T values[], int size) {
 
+    // Calculate the range of values.
     Range<T> range(values, size);
     T min = range.getMin();
     T max = range.getMax();
     T step = (max - min) / 16;
 
+    // Calculate the 16 level thresholds.
+    T levels[16];
+    for (int i = 0; i < 16; i++) {
+        levels[i] = min + (i + 1) * step;
+    }
+
+    // Scale the input values.
     scaled = new uint16_t[size];
+    uint16_t temp;
     for (int i = 0; i < size; i++) {
-        scaled[i] = 0;
+        temp = 0;
 
         for (int j = 0; j < 16; j++) {
-            if (values[i] >= min + (j + 1) * step) {
-                scaled[i] |= (1 << (16 - i));
-            } else {
-                break;
-            }
+            if (values[i] < levels[i]) break;
+            temp |= (1 << (16 - j));
         }
+        scaled[i] = temp;
     }
 }
 
