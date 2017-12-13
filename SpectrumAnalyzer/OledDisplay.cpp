@@ -1,3 +1,4 @@
+#include "BarScaler.h"
 #include "OledDisplay.h"
 #include "Range.h"
 
@@ -54,29 +55,6 @@ void OledDisplay::init() {
     command(CMD_DISPLAY_ON);
 }
 
-// Returns a byte that represents the given value's magnitude, taking into
-// account the min and max values provided. The byte returned is in big-endian
-// format, as required by the display.
-uint8_t OledDisplay::scale(double value, double min, double max) {
-    if (value <= min) {
-        return 0x00;
-    }
-    if (value >= max) {
-        return 0xFF;
-    }
-
-    uint8_t result = 0;
-    double step = (max - min) / 8;
-    for (uint8_t i = 0; i < 8; i++) {
-        if (value >= min + (i + 1) * step) {
-            result |= (1 << (7 - i));
-        } else {
-            break;
-        }
-    }
-    return result;
-}
-
 // Writes a border to the display.
 void OledDisplay::writeBorder() {
     Wire.beginTransmission(I2C_ADDR);
@@ -90,20 +68,16 @@ void OledDisplay::writeBorder() {
 // Writes data to one half of the display. Ensures that data is scaled properly
 // before writing to the display.
 void OledDisplay::write(double values[]) {
-    uint8_t row_count = LCD_HEIGHT / 8 / 2;
-    Range<double> range(values, COL_COUNT);
-    double step = range.getMax() / row_count;
+    BarScaler<double> scaler(values, COL_COUNT);
 
-    for (uint8_t row = 0; row < row_count; row++) {
+    for (int row = 0; row < 4 ; row++) {
 
         // Write the left border.
         writeBorder();
 
         // Write all segments (column and spacing).
-        for (uint8_t seg = 0; seg < COL_COUNT; seg++) {
-            uint8_t value = scale(values[seg],
-                    (row_count - row - 1) * step,
-                    (row_count - row) * step);
+        for (int seg = 0; seg < COL_COUNT; seg++) {
+            uint8_t value = scaler.get(row, seg);
 
             Wire.beginTransmission(I2C_ADDR);
             Wire.write(CMD_START_LINE);

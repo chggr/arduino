@@ -62,8 +62,6 @@ class OledDisplay {
         void command(uint8_t c);
         void write(double data[]);
         void writeBorder();
-        double maximum(double data[], uint8_t size);
-        uint8_t scale(double value, double min, double max);
 };
 
 #endif // OLED_DISPLAY_H
