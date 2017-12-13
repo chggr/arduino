@@ -65,10 +65,10 @@ void OledDisplay::writeBorder() {
     Wire.endTransmission();
 }
 
-// Writes data to one half of the display. Ensures that data is scaled properly
-// before writing to the display.
-void OledDisplay::write(double values[]) {
-    BarScaler<double> scaler(values, COL_COUNT);
+// Creates a bar plot from the given array of values and displays it in one
+// half of the OLED screen.
+void OledDisplay::writeBarPlot(double data[]) {
+    BarScaler<double> scaler(data, COL_COUNT);
 
     for (int row = 0; row < 4 ; row++) {
 
@@ -92,9 +92,10 @@ void OledDisplay::write(double values[]) {
     }
 }
 
-// Writes spectrum data for the left and right channel to the display. The size
-// of both arrays is assumed to be equal to COL_COUNT.
-void OledDisplay::write(double left[], double right[]) {
+// Displays spectrum information for the left and right channel on the OLED
+// screen as a bar plot. The number of bars is controlled via COL_COUNT. The
+// size of both input arrays is assumed to be equal to COL_COUNT.
+void OledDisplay::spectrum(double left[], double right[]) {
 
     // Set cursor at the top left corner.
     command(CMD_COLUMN_ADDR);
@@ -105,8 +106,20 @@ void OledDisplay::write(double left[], double right[]) {
     command(0x00);
     command(7);
 
-    // Write left channel on top, right channel below.
-    write(left);
-    write(right);
+    // Creates a bar plot for the left channel on top and the right channel below.
+    writeBarPlot(left);
+    writeBarPlot(right);
+}
+
+// Creates a plot from the given array of values and displays it in one half of
+// the OLED screen.
+void OledDisplay::writePlot(int data[]) {
+    // TODO
+}
+
+// Displays music samples for the left and right channel on the OLED screen as
+// a plot.
+void OledDisplay::samples(int left[], int right[]) {
+    // TODO
 }
 

@@ -4,8 +4,8 @@
 #include <Arduino.h>
 #include "Range.h"
 
-// Scales the given array of values into a 32 bit integer in little endian
-// format, so that it can be used to display a bar plot in an OLED display.
+// Scales each value in the given array into a 32-bit integer in little endian
+// format, so that it can be used to create a bar plot in an OLED display.
 // The bars will be displayed in four 8-bit rows in the OLED screen.
 
 template <class T>

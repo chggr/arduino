@@ -68,6 +68,6 @@ void loop() {
         right_dft[i] = DFT(i * FREQ_STEP);
     }
 
-    display.write(right_dft, left_dft);
+    display.spectrum(right_dft, left_dft);
 }
 
