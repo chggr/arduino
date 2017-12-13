@@ -61,6 +61,7 @@ class OledDisplay {
 
     private:
         void command(uint8_t c);
+        void resetCursor();
         void writeBarPlot(double data[]);
         void writePlot(int data[]);
         void writeBorder();

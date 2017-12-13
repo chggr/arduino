@@ -55,6 +55,18 @@ void OledDisplay::init() {
     command(CMD_DISPLAY_ON);
 }
 
+// Resets cursor at the top left corner.
+void OledDisplay::resetCursor() {
+
+    command(CMD_COLUMN_ADDR);
+    command(0x00);
+    command(LCD_WIDTH - 1);
+
+    command(CMD_PAGE_ADDR);
+    command(0x00);
+    command(7);
+}
+
 // Writes a border to the display.
 void OledDisplay::writeBorder() {
     Wire.beginTransmission(I2C_ADDR);
@@ -92,21 +104,13 @@ void OledDisplay::writeBarPlot(double data[]) {
     }
 }
 
-// Displays spectrum information for the left and right channel on the OLED
-// screen as a bar plot. The number of bars is controlled via COL_COUNT. The
-// size of both input arrays is assumed to be equal to COL_COUNT.
+// Displays spectrum information for the left and right channels on the OLED
+// screen as bar plots. The bar plot for the left channel will appear on top
+// and the bar plot for the right channel at the bottom. The number of bars in
+// each plot is controlled via COL_COUNT. The size of both input arrays is
+// assumed to be equal to COL_COUNT.
 void OledDisplay::spectrum(double left[], double right[]) {
-
-    // Set cursor at the top left corner.
-    command(CMD_COLUMN_ADDR);
-    command(0x00);
-    command(LCD_WIDTH - 1);
-
-    command(CMD_PAGE_ADDR);
-    command(0x00);
-    command(7);
-
-    // Creates a bar plot for the left channel on top and the right channel below.
+    resetCursor();
     writeBarPlot(left);
     writeBarPlot(right);
 }
@@ -117,9 +121,12 @@ void OledDisplay::writePlot(int data[]) {
     // TODO
 }
 
-// Displays music samples for the left and right channel on the OLED screen as
-// a plot.
+// Displays music samples for the left and right channels on the OLED screen as
+// plots. The plot for the left channel will appear on top and the plot for the
+// right channel at the bottom.
 void OledDisplay::samples(int left[], int right[]) {
-    // TODO
+    resetCursor();
+    writePlot(left);
+    writePlot(right);
 }
 
