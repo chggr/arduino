@@ -4,15 +4,15 @@
 #include <Arduino.h>
 #include "Range.h"
 
-// Scales the given array of values into a 16 bit integer in little endian
+// Scales the given array of values into a 32 bit integer in little endian
 // format, so that it can be used to display a bar plot in an OLED display.
-// The bars will be displayed in two 8-bit rows in the OLED screen.
+// The bars will be displayed in four 8-bit rows in the OLED screen.
 
 template <class T>
 class BarScaler {
 
     private:
-        uint16_t *scaled;
+        uint32_t *scaled;
 
     public:
         BarScaler(T values[], int size);
@@ -27,25 +27,26 @@ BarScaler<T>::BarScaler(T values[], int size) {
     Range<T> range(values, size);
     T min = range.getMin();
     T max = range.getMax();
-    T step = (max - min) / 16;
+    T step = (max - min) / 32;
 
-    // Calculate the 16 level thresholds.
-    T levels[16];
-    for (int i = 0; i < 16; i++) {
+    // Calculate the 32 level thresholds.
+    T levels[32];
+    for (int i = 0; i < 32; i++) {
         levels[i] = min + (i + 1) * step;
     }
 
     // Scale the input values.
-    scaled = new uint16_t[size];
-    uint16_t temp;
+    scaled = new uint32_t[size];
+    uint32_t result;
+    uint32_t bit = 1;
     for (int i = 0; i < size; i++) {
-        temp = 0;
+        result = 0;
 
-        for (int j = 0; j < 16; j++) {
-            if (values[i] < levels[i]) break;
-            temp |= (1 << (16 - j));
+        for (int j = 0; j < 32; j++) {
+            if (values[i] < levels[j]) break;
+            result |= (bit << (32 - j));
         }
-        scaled[i] = temp;
+        scaled[i] = result;
     }
 }
 
@@ -56,7 +57,9 @@ BarScaler<T>::~BarScaler() {
 
 template <class T>
 uint8_t BarScaler<T>::get(int row, int index) {
-    return row == 0 ? scaled[index] & 0xFF : scaled[index] >> 8;
+    uint32_t value = scaled[index];
+    int shift = row * 8;
+    return (value >> shift) & 0xFF;
 }
 
 #endif // BAR_SCALER_H
