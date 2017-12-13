@@ -1,5 +1,6 @@
 #include "BarScaler.h"
 #include "OledDisplay.h"
+#include "PlotScaler.h"
 #include "Range.h"
 
 // Sends a command to the LCD display.
@@ -118,7 +119,17 @@ void OledDisplay::spectrum(double left[], double right[], int size) {
 // Creates a plot from the given array of values and displays it in one half of
 // the OLED screen.
 void OledDisplay::writePlot(int data[], int size) {
-    // TODO
+    PlotScaler<int> scaler(data, size, 128);
+    for (int row = 0; row < 4; row++) {
+        for (int i = 0; i < 128 / 8; i++) {
+            Wire.beginTransmission(I2C_ADDR);
+            Wire.write(CMD_START_LINE);
+            for (int j = 0; j < 8; j++) {
+                Wire.write(scaler.get(row, i * 8 + j));
+            }
+            Wire.endTransmission();
+        }
+    }
 }
 
 // Displays music samples for the left and right channels on the OLED screen as
