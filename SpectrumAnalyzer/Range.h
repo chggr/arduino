@@ -1,6 +1,9 @@
 #ifndef RANGE_H
 #define RANGE_H
 
+// Calculates the range of values (minimum and maximum) in a given array.
+// Returns zero for minimum and maximum if the array is empty.
+
 template <class T>
 class Range {
 
