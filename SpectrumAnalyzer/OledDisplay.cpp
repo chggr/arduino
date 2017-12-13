@@ -79,8 +79,8 @@ void OledDisplay::writeBorder() {
 
 // Creates a bar plot from the given array of values and displays it in one
 // half of the OLED screen.
-void OledDisplay::writeBarPlot(double data[]) {
-    BarScaler<double> scaler(data, COL_COUNT);
+void OledDisplay::writeBarPlot(double data[], int size) {
+    BarScaler<double> scaler(data, size);
 
     for (int row = 0; row < 4 ; row++) {
 
@@ -107,26 +107,26 @@ void OledDisplay::writeBarPlot(double data[]) {
 // Displays spectrum information for the left and right channels on the OLED
 // screen as bar plots. The bar plot for the left channel will appear on top
 // and the bar plot for the right channel at the bottom. The number of bars in
-// each plot is controlled via COL_COUNT. The size of both input arrays is
-// assumed to be equal to COL_COUNT.
-void OledDisplay::spectrum(double left[], double right[]) {
+// each plot is controlled via COL_COUNT. The size of both input arrays should
+// be equal to COL_COUNT.
+void OledDisplay::spectrum(double left[], double right[], int size) {
     resetCursor();
-    writeBarPlot(left);
-    writeBarPlot(right);
+    writeBarPlot(left, size);
+    writeBarPlot(right, size);
 }
 
 // Creates a plot from the given array of values and displays it in one half of
 // the OLED screen.
-void OledDisplay::writePlot(int data[]) {
+void OledDisplay::writePlot(int data[], int size) {
     // TODO
 }
 
 // Displays music samples for the left and right channels on the OLED screen as
 // plots. The plot for the left channel will appear on top and the plot for the
 // right channel at the bottom.
-void OledDisplay::samples(int left[], int right[]) {
+void OledDisplay::samples(int left[], int right[], int size) {
     resetCursor();
-    writePlot(left);
-    writePlot(right);
+    writePlot(left, size);
+    writePlot(right, size);
 }
 

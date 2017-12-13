@@ -56,14 +56,14 @@ class OledDisplay {
 
     public:
         void init();
-        void spectrum(double left[], double right[]);
-        void samples(int left[], int right[]);
+        void spectrum(double left[], double right[], int size);
+        void samples(int left[], int right[], int size);
 
     private:
         void command(uint8_t c);
         void resetCursor();
-        void writeBarPlot(double data[]);
-        void writePlot(int data[]);
+        void writeBarPlot(double data[], int size);
+        void writePlot(int data[], int size);
         void writeBorder();
 };
 
