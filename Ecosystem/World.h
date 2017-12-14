@@ -16,6 +16,7 @@ class World {
     public:
         byte getByte(int row, int col);
         void apply(Event &event);
+        void cleanup();
 };
 
 #endif // WORLD_H

@@ -147,5 +147,3 @@ const byte* FACES[] = {
 
 const byte FACES_LEN = 10;
 
-#endif // FACES_H
-
