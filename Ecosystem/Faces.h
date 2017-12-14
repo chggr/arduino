@@ -18,6 +18,28 @@ const byte FACES[][8] = {
 
 const byte FACES_LEN = sizeof(FACES)/8;
 
+const byte FACE_EMPTY[] = {
+    0b00000000,
+    0b00000000,
+    0b00000000,
+    0b00000000,
+    0b00000000,
+    0b00000000,
+    0b00000000,
+    0b00000000
+}
+
+const byte FACE_DEAD[] = {
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b11111111
+}
+
 const byte FACE_SQUARE[] = {
     0b00000000,
     0b01111110,
