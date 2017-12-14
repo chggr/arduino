@@ -13,10 +13,10 @@ Event* EventGenerator::generate() {
         return new BirthEvent();
     } else if (temp < 80) {
         return new DeathEvent();
-    } else if (temp < 90) {
-        return new PlagueEvent();
-    } else {
+    } else if (temp < 95) {
         return new WarEvent();
+    } else {
+        return new PlagueEvent();
     }
 }
 

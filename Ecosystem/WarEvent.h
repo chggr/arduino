@@ -20,6 +20,7 @@ class WarEvent : public Event {
                 int row = random(8);
                 int col = random(16);
                 Entity &fighter = entities[row][col];
+                if (!fighter.isAlive()) continue;
 
                 // West
                 if (col > 0) {

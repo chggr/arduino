@@ -19,7 +19,7 @@ void loop() {
     delay(random(1000));
 
     Event* event = generator.generate();
-    world.apply(&event);
+    world.apply(*event);
     delete event;
     oled.display(world);
 
