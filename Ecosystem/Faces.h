@@ -18,7 +18,7 @@ extern const byte FACE_HAITCH[];
 extern const byte FACE_BOXES[];
 extern const byte FACE_HOURGLASS[];
 
-extern const byte FACES[][8];
+extern const byte* FACES[];
 extern const byte FACES_LEN;
 
 #endif // FACES_H

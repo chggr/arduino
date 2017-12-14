@@ -132,20 +132,20 @@ const byte FACE_HOURGLASS[] = {
     0b00000000
 };
 
-const byte FACES[][8] = {
-    { FACE_SQUARE },
-    { FACE_CROSS },
-    { FACE_EX },
-    { FACE_CIRCLE },
-    { FACE_DASH },
-    { FACE_PIPE },
-    { FACE_HASH },
-    { FACE_HAITCH },
-    { FACE_BOXES },
-    { FACE_HOURGLASS }
+const byte* FACES[] = {
+    FACE_SQUARE,
+    FACE_CROSS,
+    FACE_EX,
+    FACE_CIRCLE,
+    FACE_DASH,
+    FACE_PIPE,
+    FACE_HASH,
+    FACE_HAITCH,
+    FACE_BOXES,
+    FACE_HOURGLASS
 };
 
-const byte FACES_LEN = sizeof(FACES) / 8;
+const byte FACES_LEN = 10;
 
 #endif // FACES_H
 
