@@ -13,10 +13,10 @@ class Entity {
 
     private:
         byte* face;
-        int stren;
-        int intel;
-        int dext;
-        int cons;
+        byte stren;
+        byte intel;
+        byte dext;
+        byte cons;
 
     public:
         Entity() { empty(); };
@@ -30,10 +30,10 @@ class Entity {
         bool isAlive() { return !isEmpty() && !isDead(); };
 
         void setFace(byte* value) { face = value; };
-        void setStren(int value) { stren = value; };
-        void setIntel(int value) { intel = value; };
-        void setDext(int value) { dext = value; };
-        void setCons(int value) { cons = value; };
+        void setStren(byte value) { stren = value; };
+        void setIntel(byte value) { intel = value; };
+        void setDext(byte value) { dext = value; };
+        void setCons(byte value) { cons = value; };
 
         byte* getFace() { return face; };
 
