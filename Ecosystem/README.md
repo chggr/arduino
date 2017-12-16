@@ -71,6 +71,11 @@ simulation more interesting. The EventGenerator.cpp class is responsible for
 generating these events at random and controlling the frequency of each event
 type.
 
+Finally, the OledDisplay.ccp class is the driver for the SSD1306 OLED display.
+It sends all necessary commands to initialize the screen as per data sheet. It
+is also used to display the world and the faces of all entities living within
+it.
+
 
 
 ### Gallery
