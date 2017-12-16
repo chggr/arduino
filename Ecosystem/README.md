@@ -40,6 +40,21 @@ is generated and applied to the world. At this point the world has changed and
 there might be entities that have been born or have died. Therefore any dead
 entities will need to be cleaned up before repeating the loop again.
 
+The World class represents the place where entities are born, live and
+eventually die. It is implemented as a simple 16x8 matrix of entities. Each
+entity requires an 8x8 pixel block to be displayed, thus the world can contain
+a maximum of (128 / 8) * (64 / 8) = 16 * 8 = 128 entities. Various types of
+events can be applied to the world that cause entities to be born, to fight each
+other and die. After each event, the cleanup() method needs to be called to
+ensure any dead entities are removed from the world.
+
+Each entity has a face and four attributes (strength, intelligence, dexterity
+and constitution) that affect how successful it will be when fighting others.
+There are ten possible faces (defined in Faces.h) and two additional faces to
+represent empty space in the world (FACE\_EMPTY) and a dead entity (FACE\_DEAD).
+A face is assigned to each entity at random upon birth. When an entity dies,
+its face automatically changes to FACE\_DEAD.
+
 
 
 ### Gallery
