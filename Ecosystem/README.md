@@ -55,6 +55,22 @@ represent empty space in the world (FACE\_EMPTY) and a dead entity (FACE\_DEAD).
 A face is assigned to each entity at random upon birth. When an entity dies,
 its face automatically changes to FACE\_DEAD.
 
+There currently four events that can affect the entities living in the world:
+1. **Birth**: A new entity is born at a random position, its face and
+attributes are randomly chosen.
+2. **Death**: Death strikes at a random position, causing any entity that
+occupies it to die immediately.
+3. **War**: War affects multiple positions in the world. Entities in those
+positions attempt to fight with one of their neighbours. At the end of each
+fight the weakest entity dies.
+4. **Plague**: Plague affects multiple positions and causes any entities that
+occupy them to die immediately.
+
+Of course more events like these can be added in the future, to make the
+simulation more interesting. The EventGenerator.cpp class is responsible for
+generating these events at random and controlling the frequency of each event
+type.
+
 
 
 ### Gallery
