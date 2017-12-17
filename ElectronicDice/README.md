@@ -23,7 +23,7 @@ digital pins 2 (DATA\_PIN\_B), 3 (LATCH\_PIN\_B) and 4 (CLOCK\_PIN\_B) drive the
 74HC595 of the second dice. An additional pin 5 (INPUT\_PIN) is connected to the
 button and then to ground.
 
- 
+
 
 ### Software
 
