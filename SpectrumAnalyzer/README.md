@@ -54,6 +54,22 @@ available modes: spectrum plot or wave plot.
 
 ### Software
 
+The Arduino Nano continuously samples both right and left channels and uses
+these samples to plot either a graph of the signal itself or a bar chart of
+its frequency contents. The ATmega328 analog to digital converter (ADC) is
+initialized so that the prescaler is set to 16. The micro controller's clock
+speed is 16 MHz and a single AD conversion takes 13 clock cycles. This means
+that the overall sampling frequency is 16 MHZ / (13 * 16) = 76923 KHz. This
+sampling rate should be enough according to the Nyquist / Shannon theorem to
+capture all frequencies within the human hearing range (20 Hz to 20 KHz).
+
+Higher sampling rate allows capturing higher frequency content and also causes
+the input buffer to fill up faster, thus helping achieve almost real-time
+performance. Unfortunately prescaler values less than 16 should not be used,
+as lower values (8, 4 and 2) are known to lead to significant analog to digital
+conversion inaccuracies. Therefore the prescaler value chosen (16) is the best
+compromise between high sampling rate but also accurate AD conversion.
+
 
 
 ### Gallery
