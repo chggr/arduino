@@ -70,6 +70,24 @@ as lower values (8, 4 and 2) are known to lead to significant analog to digital
 conversion inaccuracies. Therefore the prescaler value chosen (16) is the best
 compromise between high sampling rate but also accurate AD conversion.
 
+The OledDisplay.cpp class is the driver for the SSD1306 OLED screen. It can be
+used to initialize the display by sending all necessary commands according to
+the initialization sequence described in the data sheet. Additionally the class
+can be used to display either a plot of the samples that have been obtained for
+each channel, or a bar chart of the frequency contents of the signal. The number
+of columns and spacing between them is configurable.
+
+The users can dynamically select which plot type they would like to display on
+the OLED screen by pressing the tactile switch to alternate between modes of
+operation. In every loop, the software will first take samples of both right
+and left channels. According to the mode selected, it will either display a
+plot of the samples themselves or a bar chart of the spectrum present in the
+signal. A simple DFT (Discrete Fourier Transform) algorithm is used to
+calculate each frequency component. This algorithm is easy to understand and
+implement, but its runtime complexity is O(N^2). If this is not performant
+enough, we can susbtitute DFT with FFT (Fast Fourier Transform). The later is
+much more complex but significantly faster, with O(NlogN) runtime complexity.
+
 
 
 ### Gallery
