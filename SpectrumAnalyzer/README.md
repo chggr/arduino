@@ -30,6 +30,26 @@ resistor to Vcc and GND and using its middle pin as the DC bias. The user can
 alter the potentiometer for each channel as required to ensure enough DC bias
 is present so that the full signal is on the positive voltage range.
 
+The LM358P chip contains two Operational Amplifiers that will be used to
+amplify the biased AC signal from both right and left channels. This gain
+stage is required in order to achieve much better and accurate sampling and
+analog to digital conversion later on. Each OpAmp has been configured as a
+non-inverting amplifier, to ensure that the signal at the output of this stage
+is amplified but not inverted. The biased AC signals from both channels are fed
+to the positive inputs of the OpAmps (pins 3 and 5) and two 10 kOhm variable
+resistors are connected between the outputs (pins 1 and 7), the negative inputs
+(pins 2 and 6) and GND. This allows users to vary the gain of this stage
+independently for each channel by adjusting the corresponding potentiometer.
+
+The biased and amplified AC signals are then fed to the Arduino Nano pins A0
+and A1 for sampling and ADC (Analog to Digital Conversion). The small 128x64
+SSD1306 OLED display uses the I2C protocol (Inter-Integrated Circuit) to
+receive data from the Arduino via just two pins: SDA for data and SCL for the
+clock. This screen has four pins in total that are connected as follows: Vcc to
+5V, GND to GND, SDA to A4 and SCL to A5. Finally a small tactile switch is
+connected between D12 and GND. This will be used to switch between the two
+available modes: spectrum plot or wave plot.
+
 
 
 ### Software
