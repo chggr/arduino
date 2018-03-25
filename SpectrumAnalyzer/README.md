@@ -92,5 +92,8 @@ much more complex but significantly faster, with O(NlogN) runtime complexity.
 
 ### Gallery
 
-Pictures to follow...
+<img src="gallery/SpectrumAnalyzer1.JPG" width="500">
+<img src="gallery/SpectrumAnalyzer2.JPG" width="500">
+<img src="gallery/SpectrumAnalyzer3.JPG" width="500">
+<img src="gallery/SpectrumAnalyzer4.JPG" width="500">
 
