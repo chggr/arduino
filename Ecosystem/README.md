@@ -80,5 +80,8 @@ it.
 
 ### Gallery
 
-Pictures to follow...
+<img src="gallery/Ecosystem1.JPG" width="500">
+<img src="gallery/Ecosystem2.JPG" width="500">
+<img src="gallery/Ecosystem3.JPG" width="500">
+<img src="gallery/Ecosystem4.JPG" width="500">
 
